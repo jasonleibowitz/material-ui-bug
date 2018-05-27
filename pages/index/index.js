@@ -1,81 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
+import Link from 'next/link';
+import Layout from '../../src/components/Layout';
 import { withStyles } from '@material-ui/core/styles';
-import withRoot from '../../src/withRoot';
-import Layout from '../../src/components/Layout'
-import { Container } from '../../styles/common';
-import NavBar from '../../src/components/NavBar'
+import { styles } from './styles';
 
-const styles = theme => ({
-  root: {
-    textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20,
+// Material UI
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import withRoot from '../../src/withRoot';
+
+const items = [
+  {
+    id: 0,
+    headline: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    link: 'https://www.nytimes.com/',
+    coverImage: 'https://picsum.photos/1200/600/?image=447'
   },
-});
+  {
+    id: 1,
+    headline: 'Morbi id dui consectetur, eleifend nisi ac, congue purus.',
+    link: 'https://nypost.com/',
+    coverImage: 'https://picsum.photos/1200/600/?image=952'
+  }
+]
 
 class Index extends React.Component {
-  state = {
-    open: false,
-  };
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
-
-  handleClick = () => {
-    this.setState({
-      open: true,
-    });
-  };
-
   render() {
-    console.log('/// index');
     const { classes } = this.props;
-    const { open } = this.state;
-
     return (
-      <React.Fragment>
-        <NavBar />
-        <Container>
-          <div className={classes.root}>
-            <Dialog open={open} onClose={this.handleClose}>
-              <DialogTitle>Super Secret Password</DialogTitle>
-              <DialogContent>
-                <DialogContentText>1-2-3-4-5</DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button color="primary" onClick={this.handleClose}>
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Typography variant="display1" gutterBottom>
-              Material-UI
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              example project
-            </Typography>
-            <Button variant="raised" color="secondary" onClick={this.handleClick}>
-              Super Secret Password
-            </Button>
-          </div>
-        </Container>
-      </React.Fragment>
+      <Layout>
+        <h1>Hello World</h1>
+        {items.map(item => (
+          <Card key={item.id} classes={{ root: classes.card }}>
+            <CardMedia
+              classes={{ root: classes.media }}
+              image={item.coverImage}
+            />
+            <CardContent>
+              <Typography variant="headline" component="h2" >{item.headline}</Typography>
+            </CardContent>
+            <CardActions>
+              <Link passHref href={item.link}>
+                <Button size="small" color="secondary">Learn More</Button>
+              </Link>
+            </CardActions>
+          </Card>
+        ))}
+      </Layout>
     );
   }
 }
 
-Index.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withRoot(withStyles(styles)(Index));
+export default withRoot(withStyles(styles)(Index))
