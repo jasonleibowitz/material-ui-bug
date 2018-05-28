@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Layout from '../../src/components/Layout';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './styles';
+import NavBar from '../../src/components/NavBar';
+import Layout from '../../src/components/Layout';
 
 // Material UI
 import Button from '@material-ui/core/Button';

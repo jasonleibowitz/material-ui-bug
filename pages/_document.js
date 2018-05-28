@@ -1,6 +1,7 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import JssProvider from 'react-jss/lib/JssProvider';
+import { ServerStyleSheet } from 'styled-components';
 import flush from 'styled-jsx/server';
 import getPageContext from '../src/getPageContext';
 
@@ -11,6 +12,7 @@ class MyDocument extends Document {
     return (
       <html lang="en" dir="ltr">
         <Head>
+          {this.props.styleTags}
           <title>My page</title>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -54,7 +56,7 @@ MyDocument.getInitialProps = ctx => {
   // On the client
   // 1. page.getInitialProps
   // 3. page.render
-
+  const sheet = new ServerStyleSheet();
   // Get the context of the page to collected side effects.
   const pageContext = getPageContext();
   const page = ctx.renderPage(Component => props => (
@@ -65,10 +67,12 @@ MyDocument.getInitialProps = ctx => {
       <Component pageContext={pageContext} {...props} />
     </JssProvider>
   ));
+  const styleTags = sheet.getStyleElement();
 
   return {
     ...page,
     pageContext,
+    styleTags,
     styles: (
       <React.Fragment>
         <style
